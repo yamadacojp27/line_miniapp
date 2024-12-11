@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import liff from '@line/liff'
 // import { Button } from '@/components/ui/button';
 
 // Tetromino shapes
@@ -259,6 +260,149 @@ const Tetris = () => {
     };
   }, []);
 
+  const handleShare = () => {
+    if (liff.isApiAvailable("shareTargetPicker")) {
+      liff.shareTargetPicker([
+        {
+          "type": "flex",
+          "altText": "シューティングゲームのスコアをシェア！",
+          "contents": {
+            "type": "bubble",
+            "hero": {
+              "type": "image",
+              "url": "https://raw.githubusercontent.com/himanago/miniapp-handson/refs/heads/main/game_icon.png",
+              "size": "full",
+              "aspectRatio": "20:13",
+              "aspectMode": "cover"
+            },
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `シューティングゲームで${score}点をとったよ！`,
+                      "size": "lg",
+                      "color": "#000000",
+                      "weight": "bold",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "none"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "手軽に遊べるミニゲーム",
+                      "size": "sm",
+                      "color": "#999999",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "none"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "uri",
+                        "label": "遊んでみる！",
+                        "uri": `https://miniapp.line.me/${liff.id}`
+                      },
+                      "style": "primary",
+                      "height": "md",
+                      "color": "#17c950"
+                    },
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "uri",
+                        "label": "シェアする",
+                        "uri": `https://miniapp.line.me/${liff.id}/share`
+                      },
+                      "style": "link",
+                      "height": "md",
+                      "color": "#469fd6"
+                    }
+                  ],
+                  "spacing": "xs",
+                  "margin": "lg"
+                }
+              ],
+              "spacing": "md"
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "separator",
+                  "color": "#f0f0f0"
+                },
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "image",
+                      "url": "https://raw.githubusercontent.com/himanago/miniapp-handson/refs/heads/main/game_icon.png",
+                      "flex": 1,
+                      "gravity": "center"
+                    },
+                    {
+                      "type": "text",
+                      "text": "シューティングゲーム",
+                      "flex": 19,
+                      "size": "xs",
+                      "color": "#999999",
+                      "weight": "bold",
+                      "gravity": "center",
+                      "wrap": false
+                    },
+                    {
+                      "type": "image",
+                      "url": "https://vos.line-scdn.net/service-notifier/footer_go_btn.png",
+                      "flex": 1,
+                      "gravity": "center",
+                      "size": "xxs",
+                      "action": {
+                        "type": "uri",
+                        "label": "action",
+                        "uri": `https://miniapp.line.me/${liff.id}`
+                      }
+                    }
+                  ],
+                  "flex": 1,
+                  "spacing": "md",
+                  "margin": "md"
+                }
+              ]
+            }
+          }
+        }
+      ]).then(function (res) {
+        if (res) {
+          alert("シェアしました！");
+        } else {
+          alert("シェアをキャンセルしました。");
+        }
+      })
+      .catch(function (error) {
+        alert("エラーが発生しました。");
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col items-center space-y-4 p-4">
       <canvas 
@@ -268,7 +412,7 @@ const Tetris = () => {
       <div className="text-center">
         <p>Score: {score}</p>
         {gameOver && (
-          <p className="text-red-500 font-bold">Game Over!</p>
+          <div>ゲームオーバー！クリックでリスタート<button onclick={handleShare}>シェア！</button></div>
         )}
         {gameOver && (
           <Button 
