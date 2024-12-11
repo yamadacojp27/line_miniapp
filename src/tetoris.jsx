@@ -270,7 +270,7 @@ const Tetris = () => {
             "type": "bubble",
             "hero": {
               "type": "image",
-              "url": "https://raw.githubusercontent.com/himanago/miniapp-handson/refs/heads/main/game_icon.png",
+              "url": "https://raw.githubusercontent.com/yamadacojp27/line_miniapp/refs/heads/main/47702C3B-A8BC-47C9-BE3A-810DC2AB8702.jpg",
               "size": "full",
               "aspectRatio": "20:13",
               "aspectMode": "cover"
