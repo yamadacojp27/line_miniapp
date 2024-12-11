@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import "./App.css";
+import Tetris from "./tetoris";
+
 
 function App() {
   const [name, setName] = useState("");
@@ -21,6 +23,7 @@ function App() {
   return (
     <div className="App">
       {name && <p>こんにちは、{name}さん</p>}
+      <Tetris />
     </div>
   );
 }
